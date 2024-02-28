@@ -1,0 +1,123 @@
+.courtContainer {
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 2rem;
+   margin-bottom: 2rem;
+   padding: 1rem;
+   background-color: white;
+   border-radius: 0.5rem;
+   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+   max-width: 640px;
+}
+
+.court-input,
+.court-select {
+   margin-bottom: 1rem;
+}
+
+.court-input label,
+.court-select label {
+   display: block;
+   color: #4a5568;
+   font-size: 0.875rem;
+   font-weight: 700;
+   margin-bottom: 0.5rem;
+}
+
+.court-input input,
+.court-select select {
+   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+   border: 1px solid #e2e8f0;
+   border-radius: 0.25rem;
+   width: 100%;
+   padding-top: 0.5rem;
+   padding-bottom: 0.5rem;
+   padding-left: 0.75rem;
+   padding-right: 0.75rem;
+   color: #4a5568;
+   line-height: tight;
+   outline: 2px solid transparent;
+   outline-offset: 2px;
+}
+
+.court-input input:focus,
+.court-select select:focus {
+   outline: 2px solid transparent;
+   outline-offset: 2px;
+   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.court-button {
+   background-color: #38a169;
+   color: white;
+   font-weight: 700;
+   padding-top: 0.5rem;
+   padding-bottom: 0.5rem;
+   padding-left: 1rem;
+   padding-right: 1rem;
+   border-radius: 0.25rem;
+   outline: 2px solid transparent;
+   outline-offset: 2px;
+}
+
+.court-button:hover {
+   background-color: #2f855a;
+}
+
+.floating-message {
+   position: fixed;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, -16px);
+   background-color: lightcoral;
+   color: white;
+   padding: 10px;
+   border-radius: 5px;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   max-width: 500px;
+   width: 100%;
+   box-sizing: border-box;
+   animation: fadeInUp 0.5s ease-out forwards;
+   z-index: 1000;
+}
+
+.floating-message.success {
+   background-color: darkseagreen;
+}
+
+.floating-message.hide {
+   animation: fadeOut 0.4s ease-out forwards;
+}
+
+.floating-message svg {
+   fill: white;
+}
+
+.floating-message span {
+   font-size: 16px;
+}
+
+@keyframes fadeInUp {
+   from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+   }
+
+   to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+   }
+}
+
+@keyframes fadeOut {
+   from {
+      opacity: 1;
+   }
+
+   to {
+      opacity: 0;
+      visibility: hidden;
+   }
+}

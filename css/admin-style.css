@@ -1,0 +1,72 @@
+#datetime-list {
+   list-style-type: none;
+   padding: 0;
+   margin-top: 1.25rem;
+   border: 1px solid #333;
+   height: 31.25rem;
+   overflow-y: auto;
+   max-width: 37.5rem;
+}
+
+#datetime-list li {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0.625rem;
+   border-bottom: 1px solid #333;
+}
+
+#datetime-list li:last-child {
+   border-bottom: none;
+}
+
+#datetime-list button.remove-datetime {
+   cursor: pointer;
+   background-color: #f44336;
+   color: white;
+   border: none;
+   padding: 0.3125rem 0.625rem;
+   border-radius: 5px;
+}
+
+#date-time-picker input[type="text"] {
+   margin-right: 0.625rem;
+}
+
+#add-datetime {
+   cursor: pointer;
+   background-color: #4CAF50;
+   color: white;
+   border: none;
+   padding: 0.3125rem 0.625rem;
+   border-radius: 5px;
+}
+
+#datetime-list div {
+   display: flex;
+   gap: 0.9375rem;
+   align-items: center;
+   text-align: center;
+}
+
+#datetime-list div>* {
+   flex: 1;
+   font-size: 1rem;
+   line-height: 1.5rem;
+   padding: 0.3125rem;
+   display: flex;
+   justify-content: center;
+}
+
+#datetime-list div+div {
+   border-top: 1px solid #333;
+}
+
+#datetime-list div>strong,
+#datetime-list div>span {
+   border-right: 1px solid #333;
+}
+
+#datetime-list div>div {
+   max-width: 5rem;
+}
