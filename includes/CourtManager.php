@@ -18,6 +18,11 @@ class CourtManager
 
    public function __construct()
    {
+      $options          = get_option('court_booking_settings', '[]');
+      $datetimesJson    = isset($options['datetimes_json']) ? $options['datetimes_json'] : '[]';
+      $datetimes        = json_decode($datetimesJson, true);
+      $this->time_slots = $datetimes;
+
       $this->initialize_sports();
       $this->initialize_courts();
       $this->initialize_participants();

@@ -40,7 +40,7 @@ function court_admin_enqueue_scripts()
 
    wp_enqueue_script('court-admin-script', plugin_dir_url(__FILE__) . 'js/admin-script.js', array('jquery'), false, true);
 
-   $options = debug(get_option('court_booking_settings', '[]'));
+   $options       = get_option('court_booking_settings', '[]');
    $datetimesJson = isset($options['datetimes_json']) ? $options['datetimes_json'] : '[]';
 
    wp_localize_script('court-admin-script', 'courtAjax', [

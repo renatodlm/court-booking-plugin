@@ -60,9 +60,9 @@ function court_booking_settings_section_callback()
 
 function court_booking_options_page()
 {
-   $options = debug(get_option('court_booking_settings', '[]'));
+   $options       = get_option('court_booking_settings', '[]');
    $datetimesJson = isset($options['datetimes_json']) ? $options['datetimes_json'] : '[]';
-   $datetimes = json_decode($datetimesJson, true);
+   $datetimes     = json_decode($datetimesJson, true);
 ?>
    <form action='options.php' method='post'>
       <h2>Court Booking Settings</h2>
