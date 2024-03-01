@@ -21,16 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
                }
 
                if (success) {
-                  delete formData.action
-                  fetch('https://script.google.com/macros/s/AKfycbz_j5Gem9kKiplarrhEhpqy_8kmBQimiIihjRUElo-l5bYjK093hJKcxGBUepaAaXSueA/exec', {
-                     method: 'POST',
-                     body: formData
-                  }).then(response => response.json())
-                     .then(data => {
-                        console.log(data)
-                     })
-
                   this.reset();
+
+                  if (courtAjax.redirectUrl.length > 0) {
+                     window.location.href = courtAjax.redirectUrl
+                  }
                }
             })
             .catch(error => {
@@ -52,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                .then(response => response.json())
                .then(times => {
-                  console.log(times)
                   if (times.success && times.data) {
                      var timeSelect = document.getElementById('timeSelect');
                      timeSelect.innerHTML = '<option value="">Selecione um Horário</option>';

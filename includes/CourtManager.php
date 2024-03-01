@@ -5,14 +5,10 @@ if (!defined('ABSPATH'))
    exit;
 }
 
-// $dias = [28/02/2024, 29, 30, 31];
-// é mais que today?
-// $horarios= [4:00 ,4:13, 4:20];
-
 class CourtManager
 {
    private $courts;
-   private $time_slots = ['29/02/2024 09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'];
+   private $time_slots = [];
    private $participants_per_court = [];
    private $sports;
 
@@ -21,7 +17,14 @@ class CourtManager
       $options          = get_option('court_booking_settings', '[]');
       $datetimesJson    = isset($options['datetimes_json']) ? $options['datetimes_json'] : '[]';
       $datetimes        = json_decode($datetimesJson, true);
-      $this->time_slots = $datetimes;
+
+      $tomorrow = new DateTime('tomorrow');
+
+      $this->time_slots = array_filter($datetimes, function ($data) use ($tomorrow)
+      {
+         $dataObj = DateTime::createFromFormat('d/m/Y H:i', $data);
+         return $dataObj >= $tomorrow;
+      });
 
       $this->initialize_sports();
       $this->initialize_courts();

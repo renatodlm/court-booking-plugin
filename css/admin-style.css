@@ -20,6 +20,7 @@
    border-bottom: none;
 }
 
+input[name="court_booking_settings[redirect_url]"],
 input[name="court_booking_settings[court_booking_text_field_0]"] {
    width: 100%;
    max-width: 23.75rem !important;

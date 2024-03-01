@@ -47,11 +47,11 @@ class CourtRegister
             'name'          => 'Courts',
             'singular_name' => 'Court'
          ],
-         'public'      => true,
-         'has_archive' => false,
-         'supports'    => ['title'],
-         'menu_icon'   => 'dashicons-palmtree
-         ',
+         'public'       => true,
+         'has_archive'  => false,
+         'supports'     => ['title'],
+         'menu_icon'    => 'dashicons-palmtree',
+         'show_in_menu' => 'court_booking',
       ]);
 
       register_post_type('cf_sports', [
@@ -59,10 +59,11 @@ class CourtRegister
             'name'          => 'Sports',
             'singular_name' => 'Sport'
          ],
-         'public'      => true,
-         'has_archive' => false,
-         'supports'    => ['title'],
-         'menu_icon'   => 'dashicons-universal-access',
+         'public'       => true,
+         'has_archive'  => false,
+         'supports'     => ['title'],
+         'menu_icon'    => 'dashicons-universal-access',
+         'show_in_menu' => 'court_booking',
       ]);
    }
 

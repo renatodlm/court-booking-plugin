@@ -5,7 +5,16 @@ add_action('admin_init', 'court_booking_settings_init');
 
 function court_booking_add_admin_menu()
 {
-   add_menu_page('Court Booking', 'Court Booking Settings', 'manage_options', 'court_booking', 'court_booking_options_page');
+   add_menu_page('Court Booking', 'Court Booking', 'manage_options', 'court_booking', 'court_booking_options_page', 'dashicons-book-alt', 5);
+
+   add_submenu_page(
+      'court_booking',
+      'Court Booking Settings',
+      'Settings',
+      'manage_options',
+      'court_booking_settings',
+      'court_booking_options_page'
+   );
 }
 
 function court_booking_settings_init()
@@ -14,9 +23,17 @@ function court_booking_settings_init()
 
    add_settings_section(
       'court_booking_courtBooking_section',
-      __('Your section description', 'court-booking'),
+      __('Adicione o shortcode em qualquer lugar do site [court_booking_form]', 'court-booking'),
       'court_booking_settings_section_callback',
       'courtBooking'
+   );
+
+   add_settings_field(
+      'court_booking_redirect_url',
+      __('Redirect URL', 'court-booking'),
+      'court_booking_redirect_url_render',
+      'courtBooking',
+      'court_booking_courtBooking_section'
    );
 
    add_settings_field(
@@ -34,6 +51,15 @@ function court_booking_settings_init()
       'courtBooking',
       'court_booking_courtBooking_section'
    );
+}
+
+function court_booking_redirect_url_render()
+{
+   $options = get_option('court_booking_settings');
+   $redirectUrl = isset($options['redirect_url']) ? $options['redirect_url'] : '';
+?>
+   <input type='text' name='court_booking_settings[redirect_url]' value='<?php echo esc_attr($redirectUrl); ?>'>
+<?php
 }
 
 function court_booking_text_field_0_render()

@@ -28,8 +28,12 @@ function court_enqueue_scripts()
    wp_enqueue_style('court-style', plugin_dir_url(__FILE__) . 'css/style.css');
    wp_enqueue_script('court-script', plugin_dir_url(__FILE__) . 'js/script.js', null, true);
 
+   $options       = get_option('court_booking_settings', '[]');
+   $redirect_url  = isset($options['redirect_url']) ? $options['redirect_url'] : '';
+
    wp_localize_script('court-script', 'courtAjax', [
-      'url'       => admin_url('admin-ajax.php'),
+      'url'         => admin_url('admin-ajax.php'),
+      'redirectUrl' => $redirect_url,
    ]);
 }
 
