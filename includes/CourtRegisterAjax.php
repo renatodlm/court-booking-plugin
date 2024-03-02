@@ -72,50 +72,49 @@ class CourtRegisterAjax
          wp_send_json_error(['message' => 'Horário não disponível.']);
       }
 
-      $body_user_data = [
-         'name'  => sanitize_text_field($_POST['name']),
-         'email' => sanitize_email($_POST['email']),
-         'phone' => sanitize_text_field($_POST['phone']),
-         'rg'    => sanitize_text_field($_POST['rg']),
-         'sport' => $sport,
-         'time_slot' => $time_slot
-      ];
-
-      $request_body = [
-         'body' =>
-         [
-            'NOME'                   => $body_user_data['name'],
-            'EMAIL'                 => $body_user_data['email'],
-            'TELEFONE'               => $body_user_data['phone'],
-            'RG'                     => $body_user_data['rg'],
-            'OQUE DESEJA PRATICAR' => $body_user_data['sport'],
-            'DATA/ HORÁRIO'                => $body_user_data['time_slot'],
-            'QNTD PESSOAS' => '1',
-            // 'Date'                   => '29 de fevereiro de 2024',
-            // 'Time'                   => '21:05',
-            // 'Page URL'               => home_url(),
-            // 'User Agent'             => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-            // 'Remote IP'              => '::1',
-            // 'Powered by'             => 'Elementor',
-            // 'form_id'                => 'b8b214e',
-            'form_name'              => 'FormHome',
-         ]
-      ];
-
       $options     = get_option('court_booking_settings');
       $webhook_url = $options['court_booking_text_field_0'] ?? '';
 
-      if (empty($webhook_url))
+      if (!empty($webhook_url))
       {
-         wp_send_json_error(['message' => 'Erro ao obter webhook url.']);
-      }
+         $body_user_data = [
+            'name'  => sanitize_text_field($_POST['name']),
+            'email' => sanitize_email($_POST['email']),
+            'phone' => sanitize_text_field($_POST['phone']),
+            'rg'    => sanitize_text_field($_POST['rg']),
+            'sport' => $sport,
+            'time_slot' => $time_slot
+         ];
 
-      $response = wp_remote_post($webhook_url, $request_body);
+         $request_body = [
+            'body' =>
+            [
+               'NOME'                   => $body_user_data['name'],
+               'EMAIL'                 => $body_user_data['email'],
+               'TELEFONE'               => $body_user_data['phone'],
+               'RG'                     => $body_user_data['rg'],
+               'OQUE DESEJA PRATICAR' => $body_user_data['sport'],
+               'DATA/ HORÁRIO'                => $body_user_data['time_slot'],
+               'QNTD PESSOAS' => '1',
+               // 'Date'                   => '29 de fevereiro de 2024',
+               // 'Time'                   => '21:05',
+               // 'Page URL'               => home_url(),
+               // 'User Agent'             => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+               // 'Remote IP'              => '::1',
+               // 'Powered by'             => 'Elementor',
+               // 'form_id'                => 'b8b214e',
+               'form_name'              => 'FormHome',
+            ]
+         ];
 
-      if (is_wp_error($response))
-      {
-         $error_message = $response->get_error_message();
-         wp_send_json_error(['message' => "Algo deu errado: $error_message"]);
+
+         $response = wp_remote_post($webhook_url, $request_body);
+
+         if (is_wp_error($response))
+         {
+            $error_message = $response->get_error_message();
+            wp_send_json_error(['message' => "Algo deu errado: $error_message"]);
+         }
       }
 
       $result = $CourtManager->add_participant($court_id, $time_slot, $sport, $user_data);
