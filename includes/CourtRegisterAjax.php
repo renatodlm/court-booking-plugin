@@ -53,7 +53,12 @@ class CourtRegisterAjax
 
       $CourtManager = new CourtManager();
       $sports       = $CourtManager->get_sports();
-      $sport        = sanitize_text_field($_POST['sportSelect']);
+      $free         = $_POST['free'] ?? '';
+      $sport        = $sports[sanitize_text_field($_POST['sportSelect'])];
+      if (empty($free))
+      {
+         $sport = 'Clínica de ' . $sport;
+      }
       $time_slot    = sanitize_text_field($_POST['timeSelect']);
 
       $user_data = [
@@ -89,13 +94,14 @@ class CourtRegisterAjax
          $request_body = [
             'body' =>
             [
-               'NOME'                   => $body_user_data['name'],
-               'EMAIL'                 => $body_user_data['email'],
-               'TELEFONE'               => $body_user_data['phone'],
-               'RG'                     => $body_user_data['rg'],
+               'NOME'                 => $body_user_data['name'],
+               'EMAIL'                => $body_user_data['email'],
+               'TELEFONE'             => $body_user_data['phone'],
+               'RG'                   => $body_user_data['rg'],
                'OQUE DESEJA PRATICAR' => $body_user_data['sport'],
-               'DATA/ HORÁRIO'                => $body_user_data['time_slot'],
-               'QNTD PESSOAS' => '1',
+               'DATA/ HORÁRIO'        => $body_user_data['time_slot'],
+               'QNTD PESSOAS'         => '1 Pessoa',
+               'form_name'            => 'FormHome',
                // 'Date'                   => '29 de fevereiro de 2024',
                // 'Time'                   => '21:05',
                // 'Page URL'               => home_url(),
@@ -103,7 +109,6 @@ class CourtRegisterAjax
                // 'Remote IP'              => '::1',
                // 'Powered by'             => 'Elementor',
                // 'form_id'                => 'b8b214e',
-               'form_name'              => 'FormHome',
             ]
          ];
 
@@ -129,7 +134,7 @@ class CourtRegisterAjax
          include(plugin_dir_path(__FILE__) . '../templates/email-template.php');
          $email_content = ob_get_clean();
 
-         $user_data['sport']     = $sports[$sport];
+         $user_data['sport']     = $sport;
          $user_data['time_slot'] = $time_slot;
          $email_content          = str_replace(['{{name}}', '{{email}}', '{{phone}}', '{{rg}}', '{{sport}}', '{{time_slot}}'], array_values($user_data), $email_content);
          $subject                = 'Novo participante registrado';
