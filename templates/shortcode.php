@@ -27,14 +27,19 @@ $sports       = $CourtManager->get_sports();
          <input type="text" id="rg" name="rg" placeholder="00.000.000-X" required>
       </div>
 
+      <div class="court-input">
+         <input type="checkbox" id="free" name="free">
+         <label for="free">É espaço livre?</label>
+      </div>
+
       <div class="court-select">
          <label for="sportSelect">O que deseja praticar?</label>
          <select id="sportSelect" name="sportSelect" required>
-            <option value="">Selecione uma quadra</option>
+            <option value="" selected disabled>Selecione uma quadra</option>
             <?php foreach ($sports as $key => $sport)
             {
             ?>
-               <option value="<?php echo $key; ?>"><?php echo $sport ?></option>
+               <option value="<?php echo $key; ?>"><?php echo 'Clínica de ' . $sport ?></option>
             <?php
             } ?>
          </select>

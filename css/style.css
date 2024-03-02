@@ -17,14 +17,17 @@
 
 .court-input label,
 .court-select label {
-   display: block;
    color: #4a5568;
    font-size: 0.875rem;
    font-weight: 700;
    margin-bottom: 0.5rem;
 }
 
-.court-input input,
+.court-input label:not([for="free"]) {
+   display: block;
+}
+
+.court-input input:not([type="checkbox"]),
 .court-select select {
    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
    border: 1px solid #e2e8f0;

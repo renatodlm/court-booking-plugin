@@ -81,3 +81,31 @@ document.addEventListener('DOMContentLoaded', function () {
       }
    }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+   const checkbox = document.querySelector('#free');
+   const select = document.querySelector('#sportSelect');
+
+   for (let option of select.options) {
+      if (this.checked) {
+         option.textContent = option.textContent.replace('Clínica de ', '');
+      } else {
+         if (option.value.length > 0 && console.log(!option.textContent.startsWith('Clínica de '))) {
+            option.textContent = 'Clínica de ' + option.textContent;
+         }
+      }
+   }
+
+   checkbox.addEventListener('change', function () {
+      for (let option of select.options) {
+         if (this.checked) {
+            option.textContent = option.textContent.replace('Clínica de ', '');
+         } else {
+            if (option.value.length > 0 && !option.textContent.startsWith('Clínica de ')) {
+               option.textContent = 'Clínica de ' + option.textContent;
+            }
+         }
+      }
+   });
+});
