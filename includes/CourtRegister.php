@@ -86,7 +86,6 @@ class CourtRegister
 
 ?>
       <select name="cf_sport" id="cf_sport">
-         <option value="">Selecione um esporte</option>
          <?php
 
          foreach ($sports as $sport)
@@ -136,10 +135,6 @@ class CourtRegister
       if (isset($_POST['cf_sport']))
       {
          update_post_meta($post_id, 'cf_sport', $_POST['cf_sport']);
-      }
-      else
-      {
-         delete_post_meta($post_id, 'cf_sport');
       }
    }
 

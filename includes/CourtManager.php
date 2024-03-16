@@ -18,12 +18,14 @@ class CourtManager
       $datetimesJson    = isset($options['datetimes_json']) ? $options['datetimes_json'] : '[]';
       $datetimes        = json_decode($datetimesJson, true);
 
-      $tomorrow = new DateTime('tomorrow');
+      $one_hour_ahead = new DateTime();
+      $one_hour_ahead->setTimestamp(current_time('timestamp'));
+      $one_hour_ahead->modify('+1 hour');
 
-      $this->time_slots = array_filter($datetimes, function ($data) use ($tomorrow)
+      $this->time_slots = array_filter($datetimes, function ($data) use ($one_hour_ahead)
       {
          $dataObj = DateTime::createFromFormat('d/m/Y H:i', $data);
-         return $dataObj >= $tomorrow;
+         return $dataObj >= $one_hour_ahead;
       });
 
       $this->initialize_sports();
