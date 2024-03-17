@@ -7,10 +7,10 @@
  * Author: Gustavo Santos e Renato Marques
  **/
 
+include(plugin_dir_path(__FILE__) . '/includes/CourtLogger.php');
 include(plugin_dir_path(__FILE__) . '/includes/CourtManager.php');
 include(plugin_dir_path(__FILE__) . '/includes/CourtRegister.php');
 include(plugin_dir_path(__FILE__) . '/includes/CourtRegisterAjax.php');
-include(plugin_dir_path(__FILE__) . '/includes/CourtLogger.php');
 include(plugin_dir_path(__FILE__) . '/includes/panel.php');
 
 add_shortcode('court_booking_form', 'register_court_shortcode');

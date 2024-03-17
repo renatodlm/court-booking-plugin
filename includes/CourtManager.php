@@ -52,24 +52,28 @@ class CourtManager
       return $available_courts;
    }
 
-   public function get_available_time_slots($court_id, $sport)
+   public function get_available_time_slots($courts, $sport)
    {
       global $wpdb;
 
       $table_name = $wpdb->prefix . 'court_manager_participants';
       $available_time_slots = [];
 
-      foreach ($this->time_slots as $time_slot)
+      foreach ($courts as $court_id => $value)
       {
-         $participant_count = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table_name WHERE court_id = %s AND time_slot = %s",
-            $court_id,
-            $time_slot
-         ));
 
-         if ($participant_count < 10 && $this->is_court_time_slot_available_for_sport($court_id, $time_slot, $sport))
+         foreach ($this->time_slots as $time_slot)
          {
-            $available_time_slots[] = $time_slot;
+            $participant_count = $wpdb->get_var($wpdb->prepare(
+               "SELECT COUNT(*) FROM $table_name WHERE court_id = %d AND time_slot = %s",
+               $court_id,
+               $time_slot
+            ));
+
+            if ((int) $participant_count < 10 && $this->is_court_time_slot_available_for_sport($court_id, $time_slot, $sport))
+            {
+               $available_time_slots[$court_id][] = $time_slot;
+            }
          }
       }
 
@@ -128,30 +132,33 @@ class CourtManager
       $table_name = $wpdb->prefix . 'court_manager_participants';
 
       $court_details = $this->courts[$court_id];
+
       if ($court_details['fixed'] === 'yes' && $court_details['sport'] !== $sport)
       {
          return false;
       }
 
       $existing_sport = $wpdb->get_var($wpdb->prepare(
-         "SELECT sport FROM $table_name WHERE court_id = %s AND time_slot = %s LIMIT 1",
+         "SELECT sport FROM $table_name WHERE court_id = %d AND time_slot = %s LIMIT 1",
          $court_id,
          $time_slot
       ));
 
-      if (!empty($existing_sport) && $existing_sport !== $sport)
+      $other_name_for_sport = 'clinique-' . $sport;
+
+      if (!empty($existing_sport) && $existing_sport !== $sport && $existing_sport !== $other_name_for_sport)
       {
          return false;
       }
 
       $participant_count = $wpdb->get_var($wpdb->prepare(
-         "SELECT COUNT(*) FROM $table_name WHERE court_id = %s AND time_slot = %s AND sport = %s",
+         "SELECT COUNT(*) FROM $table_name WHERE court_id = %d AND time_slot = %s AND sport = %s",
          $court_id,
          $time_slot,
          $sport
       ));
 
-      if ($participant_count >= 10)
+      if ((int) $participant_count >= 10)
       {
          return false;
       }

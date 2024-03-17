@@ -37,7 +37,7 @@ class CourtRegisterAjax
          ]);
       }
 
-      $available_time_slots = $CourtManager->get_available_time_slots(array_key_first($available_courts), $sport);
+      $available_time_slots = $CourtManager->get_available_time_slots($available_courts, $sport);
 
       wp_send_json_success($available_time_slots);
 
@@ -54,12 +54,16 @@ class CourtRegisterAjax
       $CourtManager = new CourtManager();
       $sports       = $CourtManager->get_sports();
       $free         = $_POST['free'] ?? '';
-      $sport        = $sports[sanitize_text_field($_POST['sportSelect'])];
+      $sport        = $_POST['sportSelect'];
+      $sport_label  = $sports[sanitize_text_field($_POST['sportSelect'])];
+
       if (empty($free))
       {
-         $sport = 'Clínica de ' . $sport;
+         $sport_label = 'Clínica de ' . $sport;
+         $sport = 'clinique-' . $sport;
       }
-      $time_slot    = sanitize_text_field($_POST['timeSelect']);
+
+      $time_slot = sanitize_text_field($_POST['timeSelect']);
 
       $user_data = [
          'name'  => sanitize_text_field($_POST['name']),
@@ -68,11 +72,32 @@ class CourtRegisterAjax
          'rg'    => sanitize_text_field($_POST['rg']),
       ];
 
-      $available_courts     = $CourtManager->get_available_courts($sport);
-      $court_id             = array_key_first($available_courts);
-      $available_time_slots = $CourtManager->get_available_time_slots($court_id, $sport);
+      $available_courts = $CourtManager->get_available_courts($sport);
 
-      if (empty($available_time_slots) || !in_array($time_slot, $available_time_slots))
+      $available_time_slots = $CourtManager->get_available_time_slots($available_courts, $sport);
+
+      if (empty($available_time_slots))
+      {
+         wp_send_json_error(['message' => 'Não existe horários disponíveis.']);
+      }
+
+      $available_court_id = 0;
+
+      foreach ($available_courts as $court_id => $value)
+      {
+
+         if (empty($available_time_slots[$court_id]))
+         {
+            continue;
+         }
+
+         if (in_array($time_slot, $available_time_slots[$court_id]))
+         {
+            $available_court_id = $court_id;
+         }
+      }
+
+      if (empty($available_court_id))
       {
          wp_send_json_error(['message' => 'Horário não disponível.']);
       }
@@ -87,7 +112,7 @@ class CourtRegisterAjax
             'email' => sanitize_email($_POST['email']),
             'phone' => sanitize_text_field($_POST['phone']),
             'rg'    => sanitize_text_field($_POST['rg']),
-            'sport' => $sport,
+            'sport' => $sport_label,
             'time_slot' => $time_slot
          ];
 
@@ -122,7 +147,7 @@ class CourtRegisterAjax
          }
       }
 
-      $result = $CourtManager->add_participant($court_id, $time_slot, $sport, $user_data);
+      $result = $CourtManager->add_participant($available_court_id, $time_slot, $sport, $user_data);
 
       $mail_send = true;
 
@@ -134,7 +159,7 @@ class CourtRegisterAjax
          include(plugin_dir_path(__FILE__) . '../templates/email-template.php');
          $email_content = ob_get_clean();
 
-         $user_data['sport']     = $sport;
+         $user_data['sport']     = $sport_label;
          $user_data['time_slot'] = $time_slot;
          $email_content          = str_replace(['{{name}}', '{{email}}', '{{phone}}', '{{rg}}', '{{sport}}', '{{time_slot}}'], array_values($user_data), $email_content);
          $subject                = 'Novo participante registrado';
@@ -162,7 +187,7 @@ class CourtRegisterAjax
             ", E-mail: " . $user_data['email'] .
             ", Telefone: " . $user_data['phone'] .
             ", RG: " . $user_data['rg'] .
-            ", Esporte: " . $sport .
+            ", Esporte: " . $sport_label .
             ", Horário: " . $time_slot .
             " | " . date('Y-m-d H:i:s') . "\n";
 

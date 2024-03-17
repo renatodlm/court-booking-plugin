@@ -51,7 +51,16 @@ document.addEventListener('DOMContentLoaded', function () {
                      var timeSelect = document.getElementById('timeSelect');
                      timeSelect.innerHTML = '<option value="">Selecione um Horário</option>';
 
-                     times.data.forEach(function (time) {
+                     var allTimes = [];
+                     Object.keys(times.data).forEach(function (courtId) {
+                        allTimes = allTimes.concat(times.data[courtId]);
+                     });
+
+                     var uniqueTimes = Array.from(new Set(allTimes));
+
+                     uniqueTimes.sort();
+
+                     uniqueTimes.forEach(function (time) {
                         var option = new Option(time, time);
                         timeSelect.options.add(option);
                      });

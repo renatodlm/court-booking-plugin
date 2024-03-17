@@ -9,16 +9,25 @@ class CourtLogger
 {
    public static function create_error($message)
    {
-      $log_dir = get_stylesheet_directory() . '/logs/';
+      $args     = func_get_args();
+      $log   = "";
+
+      $log_dir = __DIR__ . '/logs/';
       $log_file = $log_dir . current_time('Y-m-d') . '_error.log';
 
-      if (!file_exists($log_dir))
+      foreach ($args as $key => $arg)
       {
-         wp_mkdir_p($log_dir);
+         $log .= "\n[ ";
+
+         if ($key < 10)
+         {
+            $log .= '0';
+         }
+         $log .= "{$key} ] ";
+
+         $log .= var_export($arg, 1);
       }
 
-      $error_message = $message;
-
-      file_put_contents($log_file, $error_message, FILE_APPEND);
+      error_log($log, 3, $log_file);
    }
 }
