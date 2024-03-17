@@ -26,7 +26,7 @@ add_action('wp_enqueue_scripts', 'court_enqueue_scripts');
 function court_enqueue_scripts()
 {
    wp_enqueue_style('court-style', plugin_dir_url(__FILE__) . 'css/style.css');
-   wp_enqueue_script('court-script', plugin_dir_url(__FILE__) . 'js/script.js', null, true);
+   wp_enqueue_script('court-script', plugin_dir_url(__FILE__) . 'js/script-v1-1.js', null, true);
 
    $options       = get_option('court_booking_settings', '[]');
    $redirect_url  = isset($options['redirect_url']) ? $options['redirect_url'] : '';
