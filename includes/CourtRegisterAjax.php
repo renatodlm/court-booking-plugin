@@ -14,6 +14,9 @@ class CourtRegisterAjax
 
       add_action('wp_ajax_court_form_add_participant',  [$this, 'add_participant_callback']);
       add_action('wp_ajax_nopriv_court_form_add_participant',  [$this, 'add_participant_callback']);
+
+      add_action('wp_ajax_court_form_remove_participant',  [$this, 'remove_participant_callback']);
+      add_action('wp_ajax_nopriv_court_form_remove_participant',  [$this, 'remove_participant_callback']);
    }
 
    public function fetch_times_callback()
@@ -197,6 +200,27 @@ class CourtRegisterAjax
       wp_send_json_success(['message' => 'Horário registrado com sucesso.']);
 
       wp_die();
+   }
+
+   public function remove_participant_callback()
+   {
+      if (empty($_POST['courtId']))
+      {
+         wp_send_json_error(['message' => 'Dados do formulário incompletos.']);
+      }
+
+      global $wpdb;
+
+      $courtId    = $_POST['courtId'];
+      $table_name = $wpdb->prefix . 'court_manager_participants';
+
+      $wpdb->delete(
+         $table_name,
+         ['id' => $courtId],
+         ['%d']
+      );
+
+      wp_send_json_success(['message' => 'Removido com sucesso.']);
    }
 }
 

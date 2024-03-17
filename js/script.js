@@ -89,6 +89,43 @@ document.addEventListener('DOMContentLoaded', function () {
          }, 4000);
       }
    }
+
+   document.getElementById('rg').addEventListener('input', function (e) {
+
+      var value = e.target.value.replace(/\D/g, '');
+      var rgPattern = /^(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,1})$/;
+      var rgFormatted = value.replace(rgPattern, function (_match, p1, p2, p3, p4) {
+         return (p1 ? p1 : '') +
+            (p2 ? '.' + p2 : '') +
+            (p3 ? '.' + p3 : '') +
+            (p4 ? '-' + p4 : '');
+      });
+
+      e.target.value = rgFormatted;
+   });
+
+   document.getElementById('phone').addEventListener('input', function (e) {
+      var value = e.target.value.replace(/\D/g, ''); // Remove todos os caracteres não dígitos
+      var phoneFormatted;
+
+      // Para números de celular com 11 dígitos
+      if (value.length === 11) {
+         phoneFormatted = value.replace(/^(\d{2})(\d{1})(\d{4})(\d{4})$/, '($1) $2$3-$4');
+      }
+      // Para números fixos com 10 dígitos
+      else if (value.length === 10) {
+         phoneFormatted = value.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
+      }
+      // Para números incompletos ou em formatação
+      else {
+         phoneFormatted = value.replace(/^(\d{2})(\d{0,1})(\d{0,4})(\d{0,4})$/, function (_match, p1, p2, p3, p4) {
+            return `(${p1}) ${p2}${p3}-${p4}`.trim().replace(/-$/, '');
+         });
+      }
+
+      e.target.value = phoneFormatted;
+   });
+
 });
 
 

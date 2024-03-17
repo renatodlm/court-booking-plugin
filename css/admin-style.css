@@ -1,38 +1,7 @@
-#datetime-list {
-   list-style-type: none;
-   padding: 0;
-   margin-top: 1.25rem;
-   border: 1px solid #333;
-   height: 31.25rem;
-   overflow-y: auto;
-   max-width: 37.5rem;
-}
-
-#datetime-list li {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 0.625rem;
-   border-bottom: 1px solid #333;
-}
-
-#datetime-list li:last-child {
-   border-bottom: none;
-}
-
 input[name="court_booking_settings[redirect_url]"],
 input[name="court_booking_settings[court_booking_text_field_0]"] {
    width: 100%;
    max-width: 23.75rem !important;
-}
-
-#datetime-list button.remove-datetime {
-   cursor: pointer;
-   background-color: #f44336;
-   color: white;
-   border: none;
-   padding: 0.3125rem 0.625rem;
-   border-radius: 5px;
 }
 
 #date-time-picker input[type="text"] {
@@ -48,31 +17,18 @@ input[name="court_booking_settings[court_booking_text_field_0]"] {
    border-radius: 5px;
 }
 
-#datetime-list div {
-   display: flex;
-   gap: 0.9375rem;
-   align-items: center;
-   text-align: center;
+.remove-datetime {
+   cursor: pointer;
+   background-color: rgb(231, 144, 144);
+   border: none;
+   padding: 4px 15px;
+   border-radius: 5px;
 }
 
-#datetime-list div>* {
-   flex: 1;
-   font-size: 1rem;
-   line-height: 1.5rem;
-   padding: 0.3125rem;
-   display: flex;
-   justify-content: center;
+.wp-core-ui select {
+   min-width: 50px;
 }
 
-#datetime-list div+div {
-   border-top: 1px solid #333;
-}
-
-#datetime-list div>strong,
-#datetime-list div>span {
-   border-right: 1px solid #333;
-}
-
-#datetime-list div>div {
-   max-width: 5rem;
+table.form-table tr:nth-child(3) {
+   display: none;
 }

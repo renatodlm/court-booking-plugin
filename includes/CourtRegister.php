@@ -20,6 +20,7 @@ class CourtRegister
    public function create_participants_table()
    {
       global $wpdb;
+
       $table_name = $wpdb->prefix . 'court_manager_participants';
 
       if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name)
@@ -105,10 +106,12 @@ class CourtRegister
    public function cf_courts_meta_callback($post)
    {
       $fixed = get_post_meta($post->ID, 'cf_fixed', true);
+
    ?>
       <label for="cf_fixed">Este esporte é fixo?</label>
       <input type="checkbox" id="cf_fixed" name="cf_fixed" value="yes" <?php checked($fixed, 'yes'); ?> />
 <?php
+
    }
 
    public function save_post_meta($post_id)
@@ -142,6 +145,7 @@ class CourtRegister
    {
       $columns['cf_sport'] = __('Esporte principal', 'court_form');
       $columns['fixed']    = __('Fixo', 'court_form');
+
       return $columns;
    }
 

@@ -258,9 +258,9 @@ class CourtManager
       update_option('court_manager_courts', $this->courts);
    }
 
-   private function get_courts()
+   public function get_courts()
    {
-      $this->courts = get_option('court_manager_courts', []);
+      return $this->courts;
    }
 
    private function reset_participants()
