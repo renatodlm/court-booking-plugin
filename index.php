@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Court Booking Plugin
  * Description: Plugin para agendamento de quadras.
- * Version: 1.0
+ * Version: 1.1
  * Author: Gustavo Santos e Renato Marques
  **/
 
